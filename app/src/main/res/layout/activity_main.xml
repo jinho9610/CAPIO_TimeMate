@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#27496D"
+    tools:context=".MainActivity">
+
+    <!--stop 클릭 시 뜨는 최종 저장 화면 & 그 이전의 화면, 2그룹으로 나뉘는 프레임레이아웃-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/LLO_first"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--상단 frame 텍스트-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <!--눈 떴을 때 텍스트-->
+                    <TextView
+                        android:id="@+id/tv_open_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="수달과 함께 어떤 시간을 보내고싶으신가요?"
+                        android:textColor="#ffffff"
+                        android:textSize="19sp"
+                        android:visibility="invisible" />
+                    <!--시간 기록 텍스트-->
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="00:00:00"
+                        android:textColor="#ffffff"
+                        android:textSize="40sp"
+                        android:visibility="invisible" />
+                </FrameLayout>
+
+            </LinearLayout>
+            <!--중단 frame 이미지-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="290dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--눈 감은 수달-->
+                    <ImageView
+                        android:id="@+id/iv_closed_otter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/closed_eye_otter" />
+                    <!--눈 뜬 수달-->
+                    <ImageView
+                        android:id="@+id/iv_open_otter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/open_eye_otter"
+                        android:visibility="invisible" />
+                </FrameLayout>
+
+            </LinearLayout>
+            <!--하단 frame-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp">
+
+                <!--하단에 들어갈 리니어레이아웃 4개-->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <!--resume, stop 레이아웃-->
+                    <LinearLayout
+                        android:id="@+id/LLO_resume_stop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="top|center"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
+                        <ImageView
+                            android:id="@+id/iv_stop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="65dp"
+                            android:layout_marginRight="70dp"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:src="@drawable/stop" />
+
+                        <ImageView
+                            android:id="@+id/iv_resume"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="65dp"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:src="@drawable/resume" />
+                    </LinearLayout>
+                    <!--아이콘용 레이아웃-->
+                    <LinearLayout
+                        android:id="@+id/LLO_icons"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="invisible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center|top"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/iv_glasses"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="15dp"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:src="@drawable/glasses" />
+
+
+                            <ImageView
+                                android:id="@+id/iv_dumbbell"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="15dp"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:src="@drawable/dumbbell" />
+
+                            <ImageView
+                                android:id="@+id/iv_book"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:src="@drawable/book" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center|bottom"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/iv_setting"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="260dp"
+                                android:layout_marginBottom="30dp"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:src="@drawable/setting" />
+
+                            <ImageView
+                                android:id="@+id/iv_chart"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="30dp"
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:src="@drawable/chart" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!--광고용 레이아웃-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible"></LinearLayout>
+                    <!--눈 감았을 때 텍스트 뜨는 레이아웃-->
+                    <LinearLayout
+                        android:id="@+id/LLO_closed_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_closed_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="50dp"
+                            android:text="자고있는 수달을 터치해서 깨워주세요"
+                            android:textColor="#ffffff"
+                            android:textSize="19sp" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--최종 저장 화면-->
+        <LinearLayout
+            android:visibility="invisible"
+            android:id="@+id/LLO_second"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="100dp"
+                android:layout_weight="4.8"
+                android:background="@drawable/final_otter"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="수달 Lv."
+                    android:textColor="#ffffff"
+                    android:textSize="19sp" />
+
+                <ProgressBar
+                    android:id="@+id/pb_total"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="250dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:max="60"
+                    android:progressDrawable="@drawable/custom_pb" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="0dp"
+                android:layout_weight="1.3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_iconTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="업무 Lv."
+                    android:textColor="#ffffff"
+                    android:textSize="19sp" />
+
+                <ProgressBar
+                    android:id="@+id/pb_iconTotal"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="250dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:max="60"
+                    android:progressDrawable="@drawable/custom_pb" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/save" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>
