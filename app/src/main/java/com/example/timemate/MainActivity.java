@@ -1,7 +1,6 @@
 package com.example.timemate;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 
 import android.content.Intent;
@@ -458,24 +457,6 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-
-    /*public void pb1() {
-        pb_total = findViewById(R.id.pb_total);
-
-        final Timer t = new Timer();
-        TimerTask tt = new TimerTask() {
-            @Override
-            public void run() {
-                int cnt1=-1;
-                // tempTT는 ms단위임
-                cnt1++;
-                pb_total.setProgress(cnt1);
-
-                if (cnt1 == (tempTT / 1000 / 60 % 60)) t.cancel();
-            }
-        };
-        t.schedule(tt, 0, 30);
-    }*/
 
     public void pb1() {
         counter1 = -1;
