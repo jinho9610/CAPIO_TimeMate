@@ -35,7 +35,7 @@ public class ChartActivity extends AppCompatActivity {
         rv_days.setHasFixedSize(true); // 얘는 그냥 달아주긴하는데 뭔지 정확히 모름
         layoutManager = new LinearLayoutManager(this);
         rv_days.setLayoutManager(layoutManager);
-        rv_days.addItemDecoration(new Re);
+        rv_days.addItemDecoration(new RecyclerViewDecoration(0));
         arrayList = new ArrayList<>(); // OOData 객체를 담을 어레이 리스트(어댑터로 쏴줄것)
         rvODItems=new ArrayList<>();
 

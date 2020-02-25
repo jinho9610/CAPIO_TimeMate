@@ -25,7 +25,6 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/glasses" />
 
-
         </LinearLayout>
 
         <LinearLayout
@@ -64,9 +63,7 @@
                 android:textColor="#ffffff"
                 android:textSize="19sp" />
 
-
         </LinearLayout>
-
 
     </LinearLayout>
 
