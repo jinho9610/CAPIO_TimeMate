@@ -27,6 +27,7 @@
                 android:src="@drawable/glasses" />
 
             <TextView
+                android:id="@+id/tv_WDT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -49,6 +50,7 @@
                 android:src="@drawable/dumbbell" />
 
             <TextView
+                android:id="@+id/tv_EDT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -70,6 +72,7 @@
                 android:src="@drawable/book" />
 
             <TextView
+                android:id="@+id/tv_SDT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
