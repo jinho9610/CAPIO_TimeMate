@@ -153,6 +153,7 @@
             android:backgroundTint="#CC93aec6"
             android:src="@drawable/day"
             android:visibility="invisible"
+            tools:visibility="visible"
             app:borderWidth="0dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -166,6 +167,5 @@
             app:borderWidth="0dp" />
 
     </FrameLayout>
-
 
 </LinearLayout>
