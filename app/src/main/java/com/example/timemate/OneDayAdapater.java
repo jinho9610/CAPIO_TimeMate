@@ -44,26 +44,10 @@ public class OneDayAdapater extends RecyclerView.Adapter<OneDayAdapater.OneDayVi
             holder.iv_icon.setImageResource(R.drawable.book);
             holder.tv_activity.setText("공부");
         }
+
         long mTime = arrayList.get(position).getTime();
-        long HR = mTime / 1000 / 60 / 60;
-        long MIN = mTime / 1000 / 60;
-        long SEC = mTime / 1000;
-        if (mTime >= 3600000) {
-            if (MIN != 0) {
-                if (SEC != 0) holder.tv_time_Days.setText(HR + "HR " + MIN + "MIN " + SEC + "SEC");
-                else holder.tv_time_Days.setText(HR + "HR " + MIN + "MIN");
-            } else {
-                if (SEC != 0) holder.tv_time_Days.setText(HR + "HR " + SEC + "SEC");
-                else holder.tv_time_Days.setText(HR + "HR");
-            }
-        } else {
-            if (MIN != 0) {
-                if (SEC != 0) holder.tv_time_Days.setText(MIN + "MIN " + SEC + "SEC");
-                else holder.tv_time_Days.setText(MIN + "MIN");
-            } else {
-                if (SEC != 0) holder.tv_time_Days.setText(SEC + "SEC");
-            }
-        }
+        String tempTime = String.format("%02dHR %02dMIN", mTime/1000/60/60,mTime/1000/60);
+        holder.tv_time_Days.setText(tempTime);
     }
 
     @Override

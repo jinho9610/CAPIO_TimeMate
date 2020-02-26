@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.timemate.Database.AppDatabase;
 import com.example.timemate.Database.OneDay;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private int TotalDatasDbSize = 0;
     private long myBaseTime, myPauseTime, outTime;
     private ProgressBar pb_total, pb_iconTotal;
-    private int counter1, counter2;
+    private int counter1 = -1, counter2 = -1;
 
     private long tempWDT, tempEDT, tempSDT; // 아이콘 별 "일일 총" 누적 시간, 얘네한테 outTime 더해서 db에 갱신
     private long tempWT, tempET, tempST; // 아이콘 별 "총" 누적 시간, 얘네한테 outTime 더해서 db에 갱신
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // DB생성
+        // DB 초기화 및 생성
         db = AppDatabase.getAppDatabase(this);
         // 하루 항목 별 사용 시간 옵저버
         db.oneDayDao().getAll().observe(this, new Observer<List<OneDay>>() {
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<OneDay> oneDays) {
                 OneDayDbSize = oneDays.size();
                 if (OneDayDbSize != 0) {
-                    // tv_test.setText((tempTT/1000/60) % 60+""); // 가장 최근 내용을 보여준다
                     tempWDT = oneDays.get(OneDayDbSize - 1).getWork_dayTotal();
                     tempEDT = oneDays.get(OneDayDbSize - 1).getExercise_dayTotal();
                     tempSDT = oneDays.get(OneDayDbSize - 1).getStudy_dayTotal();
@@ -238,16 +238,28 @@ public class MainActivity extends AppCompatActivity {
                         LLO_first.setVisibility(View.INVISIBLE);
                         LLO_second.setVisibility(View.VISIBLE);
 
-                        if (iconType == 1) { // 안경 선택
-                            new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, iconType, outTime, tempWDT + outTime, tempEDT, tempSDT));
-                            new TotalDataInsertAsyncTask(db.totalDataDao()).execute(new TotalData(tempWT + outTime, tempET, tempST));
-                        } else if (iconType == 2) { // 덤벨 선택
-                            new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, iconType, outTime, tempWDT, tempEDT + outTime, tempSDT));
-                            new TotalDataInsertAsyncTask(db.totalDataDao()).execute(new TotalData(tempWT, tempET + outTime, tempST));
-                        } else { // 책 선택
-                            new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, iconType, outTime, tempWDT, tempEDT, tempSDT + outTime));
-                            new TotalDataInsertAsyncTask(db.totalDataDao()).execute(new TotalData(tempWT, tempET, tempST + outTime));
+                        if (outTime >= 60000) { // 기록 시간이 1분이 넘으면 데이터 베이스에 저장
+                            if (iconType == 1) { // 안경 선택
+                                new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, iconType, outTime, tempWDT + outTime, tempEDT, tempSDT));
+                                new TotalDataInsertAsyncTask(db.totalDataDao()).execute(new TotalData(tempWT + outTime, tempET, tempST));
+                            } else if (iconType == 2) { // 덤벨 선택
+                                new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, iconType, outTime, tempWDT, tempEDT + outTime, tempSDT));
+                                new TotalDataInsertAsyncTask(db.totalDataDao()).execute(new TotalData(tempWT, tempET + outTime, tempST));
+                            } else { // 책 선택
+                                new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, iconType, outTime, tempWDT, tempEDT, tempSDT + outTime));
+                                new TotalDataInsertAsyncTask(db.totalDataDao()).execute(new TotalData(tempWT, tempET, tempST + outTime));
+                            }
+                        } else { // 기록 시간이 1분이 넘지 않으면
+                            tv_total.setText("수달 Lv." + tempTT / 1000 / 60 / 60);
+                            if (iconType == 1) {
+                                tv_iconTotal.setText("업무 Lv." + tempWT / 1000 / 60 / 60);
+                            } else if (iconType == 2) {
+                                tv_iconTotal.setText("운동 Lv." + tempET / 1000 / 60 / 60);
+                            } else if (iconType == 3) {
+                                tv_iconTotal.setText("공부 Lv." + tempST / 1000 / 60 / 60);
+                            }
                         }
+
                         // 0.5초 이후 프로그레스바 실행
                         new Timer().schedule(new TimerTask() {
                             public void run() {
@@ -309,9 +321,13 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.iv_chart:
-                        Intent intentChart = new Intent(MainActivity.this, ChartActivity.class);
-                        startActivity(intentChart);
-                        break;
+                        if(OneDayDbSize==0) { // 데이터베이스가 비어 있다면
+                            Toast.makeText(getApplicationContext(), "먼저 시간을 기록해주세요", Toast.LENGTH_SHORT).show();
+                        } else { // 데이터 베이스가 비어있지 않다면 통계창으로 이동하여 recyclerview를 띄운다
+                            Intent intentChart = new Intent(MainActivity.this, ChartActivity.class);
+                            startActivity(intentChart);
+                            break;
+                        }
                 }
             }
         };
@@ -459,7 +475,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pb1() {
-        counter1 = -1;
         final Timer t = new Timer();
         TimerTask tt = new TimerTask() {
             @Override
@@ -477,7 +492,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pb2() {
-        counter2 = -1;
         final Timer t = new Timer();
         TimerTask tt = new TimerTask() {
             @Override
@@ -496,5 +510,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         t.schedule(tt, 0, 30);
+        counter2 = -1;
     }
 }
