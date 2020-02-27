@@ -60,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
     int year = Integer.parseInt(yearFormat.format(curTime));
     int month = Integer.parseInt(monthFormat.format(curTime));
     int day = Integer.parseInt(dayFormat.format(curTime));
+
+    Calendar cal = Calendar.getInstance();
+    /*int year = cal.get(Calendar.YEAR); // 연
+    int month=cal.get(Calendar.MONTH)+1; // 월
+    int day = cal.get(Calendar.DATE); // 일*/
+    int date = cal.get(Calendar.DAY_OF_WEEK); // 요일
+
     AppDatabase db;
 
     @Override
@@ -240,13 +247,13 @@ public class MainActivity extends AppCompatActivity {
 
                         if (outTime >= 60000) { // 기록 시간이 1분이 넘으면 데이터 베이스에 저장
                             if (iconType == 1) { // 안경 선택
-                                new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, iconType, outTime, tempWDT + outTime, tempEDT, tempSDT));
+                                new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, date, iconType, outTime, tempWDT + outTime, tempEDT, tempSDT));
                                 new TotalDataInsertAsyncTask(db.totalDataDao()).execute(new TotalData(tempWT + outTime, tempET, tempST));
                             } else if (iconType == 2) { // 덤벨 선택
-                                new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, iconType, outTime, tempWDT, tempEDT + outTime, tempSDT));
+                                new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, date, iconType, outTime, tempWDT, tempEDT + outTime, tempSDT));
                                 new TotalDataInsertAsyncTask(db.totalDataDao()).execute(new TotalData(tempWT, tempET + outTime, tempST));
                             } else { // 책 선택
-                                new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, iconType, outTime, tempWDT, tempEDT, tempSDT + outTime));
+                                new OneDayInsertAsyncTask(db.oneDayDao()).execute(new OneDay(year, month, day, date, iconType, outTime, tempWDT, tempEDT, tempSDT + outTime));
                                 new TotalDataInsertAsyncTask(db.totalDataDao()).execute(new TotalData(tempWT, tempET, tempST + outTime));
                             }
                         } else { // 기록 시간이 1분이 넘지 않으면
@@ -321,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.iv_chart:
-                        if(OneDayDbSize==0) { // 데이터베이스가 비어 있다면
+                        if (OneDayDbSize == 0) { // 데이터베이스가 비어 있다면
                             Toast.makeText(getApplicationContext(), "먼저 시간을 기록해주세요", Toast.LENGTH_SHORT).show();
                         } else { // 데이터 베이스가 비어있지 않다면 통계창으로 이동하여 recyclerview를 띄운다
                             Intent intentChart = new Intent(MainActivity.this, ChartActivity.class);
@@ -455,7 +462,42 @@ public class MainActivity extends AppCompatActivity {
 
         @Override // 백그라운드 작업
         protected Void doInBackground(OneDay... oneDays) {
-            mOneDayDao.insert(oneDays[0]);
+            /*List<OneDay> temp = mOneDayDao.getAllItems();
+            OneDay last = temp.get(temp.size() - 1); // 가장 최근에 저장된 정보 객체
+            // insert하기 전에 오늘이 가장 첫 일요일이면 데이터초기화
+            if (oneDays[0].getDate() == 1) { // 일요일이면서
+                if (mOneDayDao.getAllItems().size() != 0) { // 최초 등록이 아니고
+                    if (oneDays[0].getYear() != last.getYear() || oneDays[0].getMonth() != last.getMonth() || oneDays[0].getDay() != last.getDay()) {
+                        //요일 정보가 다르다면
+                        mOneDayDao.clear(); // 정보 저장에 앞서서 데이터를 비워준다.
+                        // 왜냐, 우리는 일~토 까지의 한 주 단위의 데이터를 보여줄 수 있어야하니까
+                    }
+                }
+            }*/
+
+            List<OneDay> temp = mOneDayDao.getAllItems();
+            OneDay last = temp.get(temp.size() - 1); // 가장 최근에 저장된 정보 객체
+            if (temp.size() != 0 && (oneDays[0].getYear() != last.getYear() || oneDays[0].getMonth() != last.getMonth() || oneDays[0].getDay() != last.getDay())) {
+                // 최초 등록이 아니고
+                // 하루가 바뀌었음을, 즉 날짜에 변경을 인지하면
+                // 업무 별 하루 총 시간을 0부터 시작하도록 한다.
+                int tempY, tempM, tempD, tempDate, tempIT;
+                long tempOT;
+                tempY = oneDays[0].getYear();
+                tempM = oneDays[0].getMonth();
+                tempD = oneDays[0].getDay();
+                tempDate = oneDays[0].getDate();
+                tempIT = oneDays[0].getCategory();
+                tempOT = oneDays[0].getTime();
+                if (tempIT == 1)
+                    mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, tempOT, 0, 0));
+                else if (tempIT == 2)
+                    mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, 0, tempOT, 0));
+                else
+                    mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, 0, 0, tempOT));
+            } else {
+                mOneDayDao.insert(oneDays[0]);
+            }
             return null;
         }
     }
@@ -472,6 +514,7 @@ public class MainActivity extends AppCompatActivity {
             mTotalDataDao.insert(totalDatas[0]);
             return null;
         }
+
     }
 
     public void pb1() {

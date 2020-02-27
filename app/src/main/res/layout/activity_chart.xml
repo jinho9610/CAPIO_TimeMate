@@ -11,10 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--일일 통계-->
         <LinearLayout
+            android:id="@+id/LLO_chart_day"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:visibility="invisible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -106,6 +109,142 @@
             </LinearLayout>
 
         </LinearLayout>
+        <!--주간 통계-->
+        <LinearLayout
+            android:visibility="invisible"
+            android:id="@+id/LLO_chart_week"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            
+            <LinearLayout
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="137dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/corner_background">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.1"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/glasses2"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center|left">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="업무"
+                        android:layout_marginBottom="15dp"
+                        android:textColor="#ffffff"
+                        android:textSize="32sp"/>
+                    <TextView
+                        android:id="@+id/tv_week_work"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#ffffff"
+                        android:text="00HOUR 00MIN"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="137dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:background="@drawable/corner_background">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.1"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dumbbell2"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center|left">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="운동"
+                        android:layout_marginBottom="15dp"
+                        android:textColor="#ffffff"
+                        android:textSize="32sp"/>
+                    <TextView
+                        android:id="@+id/tv_week_exercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#ffffff"
+                        android:text="00HOUR 00MIN"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="137dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/corner_background">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.1"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/book2"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center|left">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="공부"
+                        android:layout_marginBottom="15dp"
+                        android:textColor="#ffffff"
+                        android:textSize="32sp"/>
+                    <TextView
+                        android:id="@+id/tv_week_study"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#ffffff"
+                        android:text="00HOUR 00MIN"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            
+
+        </LinearLayout>
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_time"
@@ -117,7 +256,8 @@
             android:backgroundTint="#CC93aec6"
             android:src="@drawable/clk"
             android:visibility="invisible"
-            app:borderWidth="0dp" />
+            app:borderWidth="0dp"
+            tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_month"
@@ -129,7 +269,8 @@
             android:backgroundTint="#CC93aec6"
             android:src="@drawable/month"
             android:visibility="invisible"
-            app:borderWidth="0dp" />
+            app:borderWidth="0dp"
+            tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_week"
@@ -141,7 +282,8 @@
             android:backgroundTint="#CC93aec6"
             android:src="@drawable/week"
             android:visibility="invisible"
-            app:borderWidth="0dp" />
+            app:borderWidth="0dp"
+            tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_day"
@@ -153,8 +295,8 @@
             android:backgroundTint="#CC93aec6"
             android:src="@drawable/day"
             android:visibility="invisible"
-            tools:visibility="visible"
-            app:borderWidth="0dp" />
+            app:borderWidth="0dp"
+            tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_main"

@@ -35,13 +35,13 @@ public class OneDayAdapater extends RecyclerView.Adapter<OneDayAdapater.OneDayVi
     @Override
     public void onBindViewHolder(@NonNull OneDayViewHolder holder, int position) {
         if (arrayList.get(position).getIconType() == 1) {
-            holder.iv_icon.setImageResource(R.drawable.glasses);
+            holder.iv_icon.setImageResource(R.drawable.glasses2);
             holder.tv_activity.setText("업무");
         } else if (arrayList.get(position).getIconType() == 2) {
-            holder.iv_icon.setImageResource(R.drawable.dumbbell);
+            holder.iv_icon.setImageResource(R.drawable.dumbbell2);
             holder.tv_activity.setText("운동");
         } else {
-            holder.iv_icon.setImageResource(R.drawable.book);
+            holder.iv_icon.setImageResource(R.drawable.book2);
             holder.tv_activity.setText("공부");
         }
 

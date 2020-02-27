@@ -11,6 +11,7 @@ public class OneDay {
     private int year;
     private int month;
     private int day;
+    private int date;
 
     // 1 - 업무 / 2- 운동 /  3 - 공부
     private int category;
@@ -24,10 +25,11 @@ public class OneDay {
     private long study_dayTotal;
 
     // 연산은 메인액티비티에서 진행할 것
-    public OneDay(int year, int month, int day, int category, long time, long work_dayTotal, long exercise_dayTotal, long study_dayTotal) {
+    public OneDay(int year, int month, int day, int date, int category, long time, long work_dayTotal, long exercise_dayTotal, long study_dayTotal) {
         this.year = year;
         this.month = month;
         this.day = day;
+        this.date = date;
         this.category = category;
         this.time = time;
         this.work_dayTotal = work_dayTotal;
@@ -65,6 +67,14 @@ public class OneDay {
 
     public void setDay(int day) {
         this.day = day;
+    }
+
+    public void setDate(int date) {
+        this.date = date;
+    }
+
+    public int getDate() {
+        return date;
     }
 
     public int getCategory() {
