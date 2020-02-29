@@ -2,6 +2,7 @@ package com.example.timemate;
 
 import android.content.Context;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.time.chrono.MinguoChronology;
 import java.util.ArrayList;
 
 public class OneDayAdapater extends RecyclerView.Adapter<OneDayAdapater.OneDayViewHolder> {
 
     private ArrayList<ODData> arrayList;
     private Context context;
+    private String[] sentences = {"훌륭하수달!", "잘했수달!", "멋져요!"};
 
     public OneDayAdapater(ArrayList<ODData> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -45,8 +45,12 @@ public class OneDayAdapater extends RecyclerView.Adapter<OneDayAdapater.OneDayVi
             holder.tv_activity.setText("공부");
         }
 
+        double d = Math.random();
+        holder.tv_sentence.setText(sentences[(int) (d * 3)]);
+        Log.d("난수체크",Integer.toString((int) (d * 3)));
+
         long mTime = arrayList.get(position).getTime();
-        String tempTime = String.format("%02dHR %02dMIN", mTime/1000/60/60,mTime/1000/60);
+        String tempTime = String.format("%02dHR %02dMIN", mTime / 1000 / 60 / 60, mTime / 1000 / 60);
         holder.tv_time_Days.setText(tempTime);
     }
 
@@ -57,13 +61,14 @@ public class OneDayAdapater extends RecyclerView.Adapter<OneDayAdapater.OneDayVi
 
     public class OneDayViewHolder extends RecyclerView.ViewHolder {
         ImageView iv_icon;
-        TextView tv_activity, tv_time_Days;
+        TextView tv_activity, tv_time_Days, tv_sentence;
 
         public OneDayViewHolder(@NonNull View itemView) {
             super(itemView);
             this.iv_icon = itemView.findViewById(R.id.iv_icon);
             this.tv_activity = itemView.findViewById(R.id.tv_activity);
             this.tv_time_Days = itemView.findViewById(R.id.tv_time_Days);
+            this.tv_sentence = itemView.findViewById(R.id.tv_sentence);
         }
     }
 }

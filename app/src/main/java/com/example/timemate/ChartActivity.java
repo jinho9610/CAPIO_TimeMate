@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,9 +18,15 @@ import com.example.timemate.Database.OneDay;
 import com.example.timemate.Database.OneDayDao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 public class ChartActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,7 +39,7 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
     private Animation fab_open_day, fab_open_week, fab_open_month, fab_open_time, fab_close;
     private Boolean isFabOpen = false;
     private FloatingActionButton fab_main, fab_day, fab_week, fab_month, fab_time;
-    private LinearLayout LLO_chart_day, LLO_chart_week;
+    private LinearLayout LLO_chart_day, LLO_chart_week, LLO_calendar;
 
     private AppDatabase db;
 
@@ -59,6 +66,7 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
 
         LLO_chart_day = findViewById(R.id.LLO_chart_day);
         LLO_chart_week = findViewById(R.id.LLO_chart_week);
+        LLO_calendar=findViewById(R.id.LLO_calendar);
 
 
         rv_days.setHasFixedSize(true); // 얘는 그냥 달아주긴하는데 뭔지 정확히 모름
@@ -97,10 +105,16 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
             case R.id.fab_day:
                 LLO_chart_day.setVisibility(View.VISIBLE);
                 LLO_chart_week.setVisibility(View.INVISIBLE);
+                LLO_calendar.setVisibility(View.INVISIBLE);
                 break;
             case R.id.fab_week:
                 LLO_chart_day.setVisibility(View.INVISIBLE);
                 LLO_chart_week.setVisibility(View.VISIBLE);
+                LLO_calendar.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.fab_month :
+                LLO_calendar.setVisibility(View.VISIBLE);
+                anim();
                 break;
         }
     }
@@ -144,19 +158,42 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
             if (!arrayList.isEmpty()) arrayList.clear();
             if (!rvODItems.isEmpty()) rvODItems.clear();
 
-            if (mOneDayDao.getAllItems() != null) {
-                rvODItems = mOneDayDao.getAllItems();
+            Calendar cal = new GregorianCalendar();
+            int year = cal.get(Calendar.YEAR); // 연
+            int month = cal.get(Calendar.MONTH) + 1; // 월
+            int day = cal.get(Calendar.DATE); // 일
+            Log.e("오늘날짜",Integer.toString(year));
+            Log.e("오늘날짜",Integer.toString(month));
+            Log.e("오늘날짜",Integer.toString(day));
 
-                for (OneDay oneDay : rvODItems) {
-                    ODData temp = new ODData(oneDay.getCategory(), oneDay.getTime());
-                    arrayList.add(temp);
-                }
-
-                // 가장 최근 것이 rv에서 가장 위로 올라오도록 리스트를 뒤집어준다.
-                Collections.reverse(arrayList);
-
-                publishProgress(rvODItems.get(rvODItems.size() - 1));
+            if (mOneDayDao.getAllItemsByDayInfo(year, month, day).size()!=0) { // 오늘 저장된 것이 하나라도 있다면
+                rvODItems = mOneDayDao.getAllItemsByDayInfo(year, month, day); // 오늘 정보만 가져온다
+                Log.e("오늘저장된게있는경우",Integer.toString(rvODItems.size()));
+            } else { // 오늘 저장된 놈이 하나도 없는 상태라면 그냥 전날것들 보여주자
+                Calendar cal2 = new GregorianCalendar();
+                cal2.add(Calendar.DAY_OF_MONTH, -1);
+                int y = cal2.get(Calendar.YEAR); // 연
+                int m = cal2.get(Calendar.MONTH) + 1; // 월
+                int d = cal2.get(Calendar.DATE); // 일
+                rvODItems = mOneDayDao.getAllItemsByDayInfo(y, m, d);
+                Log.e("오늘저장된게없는경우 Y",Integer.toString(y));
+                Log.e("오늘저장된게없는경우 M",Integer.toString(m));
+                Log.e("오늘저장된게없는경우 D",Integer.toString(d));
             }
+
+            for (OneDay oneDay : rvODItems) {
+                ODData temp = new ODData(oneDay.getCategory(), oneDay.getTime());
+                arrayList.add(temp);
+            }
+
+
+            // 가장 최근 것이 rv에서 가장 위로 올라오도록 리스트를 뒤집어준다.
+            Collections.reverse(arrayList);
+
+            // onProgressUpdate로 가장 최근 저장된 OneDay 객체를 보낸다
+            publishProgress(rvODItems.get(rvODItems.size() - 1));
+
+
             return null;
         }
 

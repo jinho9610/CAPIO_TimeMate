@@ -28,6 +28,7 @@ import com.example.timemate.Database.TotalDataDao;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -53,18 +54,23 @@ public class MainActivity extends AppCompatActivity {
     Animation fadein, fadeout, panelup, paneldown;
 
     // 연, 월, 일 추출
-    Date curTime = Calendar.getInstance().getTime();
+    /*Date curTime = Calendar.getInstance().getTime();
     SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
     SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
     SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
     int year = Integer.parseInt(yearFormat.format(curTime));
     int month = Integer.parseInt(monthFormat.format(curTime));
-    int day = Integer.parseInt(dayFormat.format(curTime));
+    int day = Integer.parseInt(dayFormat.format(curTime));*/
 
-    Calendar cal = Calendar.getInstance();
-    /*int year = cal.get(Calendar.YEAR); // 연
+    /*Calendar cal = Calendar.getInstance();
+    int year = cal.get(Calendar.YEAR); // 연
     int month=cal.get(Calendar.MONTH)+1; // 월
-    int day = cal.get(Calendar.DATE); // 일*/
+    int day = cal.get(Calendar.DATE); // 일
+    int date = cal.get(Calendar.DAY_OF_WEEK); // 요일*/
+    Calendar cal = new GregorianCalendar();
+    int year = cal.get(Calendar.YEAR); // 연
+    int month = cal.get(Calendar.MONTH) + 1; // 월
+    int day = cal.get(Calendar.DATE); // 일
     int date = cal.get(Calendar.DAY_OF_WEEK); // 요일
 
     AppDatabase db;
@@ -475,26 +481,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             }*/
 
-            List<OneDay> temp = mOneDayDao.getAllItems();
-            OneDay last = temp.get(temp.size() - 1); // 가장 최근에 저장된 정보 객체
-            if (temp.size() != 0 && (oneDays[0].getYear() != last.getYear() || oneDays[0].getMonth() != last.getMonth() || oneDays[0].getDay() != last.getDay())) {
-                // 최초 등록이 아니고
-                // 하루가 바뀌었음을, 즉 날짜에 변경을 인지하면
-                // 업무 별 하루 총 시간을 0부터 시작하도록 한다.
-                int tempY, tempM, tempD, tempDate, tempIT;
-                long tempOT;
-                tempY = oneDays[0].getYear();
-                tempM = oneDays[0].getMonth();
-                tempD = oneDays[0].getDay();
-                tempDate = oneDays[0].getDate();
-                tempIT = oneDays[0].getCategory();
-                tempOT = oneDays[0].getTime();
-                if (tempIT == 1)
-                    mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, tempOT, 0, 0));
-                else if (tempIT == 2)
-                    mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, 0, tempOT, 0));
-                else
-                    mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, 0, 0, tempOT));
+            if (mOneDayDao.getAllItems().size() != 0) {
+                List<OneDay> temp = mOneDayDao.getAllItems();
+                OneDay last = temp.get(temp.size() - 1); // 가장 최근에 저장된 정보 객체
+                if (temp.size() != 0 && (oneDays[0].getDay() != last.getDay())) {
+                    // 최초 등록이 아니고
+                    // 하루가 바뀌었음을, 즉 날짜에 변경을 인지하면
+                    // 업무 별 하루 총 시간을 0부터 시작하도록 한다.
+                    int tempY, tempM, tempD, tempDate, tempIT;
+                    long tempOT;
+                    tempY = oneDays[0].getYear();
+                    tempM = oneDays[0].getMonth();
+                    tempD = oneDays[0].getDay();
+                    tempDate = oneDays[0].getDate();
+                    tempIT = oneDays[0].getCategory();
+                    tempOT = oneDays[0].getTime();
+                    if (tempIT == 1)
+                        mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, tempOT, 0, 0));
+                    else if (tempIT == 2)
+                        mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, 0, tempOT, 0));
+                    else
+                        mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, 0, 0, tempOT));
+                }
+                else {
+                    mOneDayDao.insert(oneDays[0]);
+                }
+
             } else {
                 mOneDayDao.insert(oneDays[0]);
             }

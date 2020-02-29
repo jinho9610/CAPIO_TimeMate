@@ -10,10 +10,12 @@ import java.util.List;
 
 @Dao
 public interface OneDayDao {
-    @Query("SELECT*FROM OneDay") // 모든 내용을 꺼내온다 - 라이브데이터관찰용
+    @Query("SELECT*FROM OneDay")
+        // 모든 내용을 꺼내온다 - 라이브데이터관찰용
     LiveData<List<OneDay>> getAll();
 
-    @Query("SELECT * FROM OneDay") // 모든 내용을 꺼내온다
+    @Query("SELECT * FROM OneDay")
+        // 모든 내용을 꺼내온다
     List<OneDay> getAllItems();
 
     @Insert
@@ -21,6 +23,9 @@ public interface OneDayDao {
 
     @Update
     void update(OneDay oneDay);
+
+    @Query("SELECT * FROM OneDay WHERE year = :year and month = :month and day = :day")
+    List<OneDay> getAllItemsByDayInfo(int year, int month, int day);
 
     // 매일 최초 실행 시 전체 삭제
     @Query("DELETE FROM OneDay")

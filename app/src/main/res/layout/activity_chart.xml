@@ -241,7 +241,24 @@
                 </LinearLayout>
 
             </LinearLayout>
-            
+
+        </LinearLayout>
+        <!--달력-->
+        <LinearLayout
+            android:id="@+id/LLO_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#D9FFFFFF"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            android:layout_gravity="bottom">
+            <CalendarView
+                android:minDate="01/01/2020"
+                android:maxDate="12/31/2060"
+                android:id="@+id/calendar"
+                android:layout_marginBottom="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 
