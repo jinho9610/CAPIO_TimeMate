@@ -1,8 +1,6 @@
 package com.example.timemate;
 
 import android.content.Context;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +45,6 @@ public class OneDayAdapater extends RecyclerView.Adapter<OneDayAdapater.OneDayVi
 
         double d = Math.random();
         holder.tv_sentence.setText(sentences[(int) (d * 3)]);
-        Log.d("난수체크",Integer.toString((int) (d * 3)));
 
         long mTime = arrayList.get(position).getTime();
         String tempTime = String.format("%02dHR %02dMIN", mTime / 1000 / 60 / 60, mTime / 1000 / 60);

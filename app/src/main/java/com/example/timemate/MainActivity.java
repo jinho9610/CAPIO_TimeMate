@@ -247,7 +247,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.iv_stop:
-                        Log.e("stop버튼", "stop버튼클릭");
                         LLO_first.setVisibility(View.INVISIBLE);
                         LLO_second.setVisibility(View.VISIBLE);
 
@@ -387,7 +386,6 @@ public class MainActivity extends AppCompatActivity {
         iv_save.setOnClickListener(onClickListener);
         iv_chart.setOnClickListener(onClickListener);
 
-
         // 패널업 애니메이션 리스너
         panelup.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -502,8 +500,7 @@ public class MainActivity extends AppCompatActivity {
                         mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, 0, tempOT, 0));
                     else
                         mOneDayDao.insert(new OneDay(tempY, tempM, tempD, tempDate, tempIT, tempOT, 0, 0, tempOT));
-                }
-                else {
+                } else {
                     mOneDayDao.insert(oneDays[0]);
                 }
 
@@ -542,7 +539,7 @@ public class MainActivity extends AppCompatActivity {
                 if (counter1 == (tempTT / 1000 / 60 % 60)) t.cancel();
             }
         };
-        t.schedule(tt, 0, 30);
+        t.schedule(tt, 0, 20);
         counter1 = -1;
     }
 
@@ -564,7 +561,48 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        t.schedule(tt, 0, 30);
+        t.schedule(tt, 0, 20);
         counter2 = -1;
+    }
+
+    @Override
+    public void onBackPressed() { // state가 3 또는 4일때는 뒤로가기 버튼이 작동안하도록 설계,
+        if (state == 1) finish();
+        else if (state == 2) finish();
+        else if (state == 5) { // state가 5일 때, 뒤로가기 버튼은 save버튼과 동일한 기능을 한다.
+            LLO_second.setVisibility(View.INVISIBLE);
+            LLO_first.setVisibility(View.VISIBLE);
+
+            new Timer().schedule(new TimerTask() {
+                public void run() {
+                    LLO_resume_stop.startAnimation(paneldown);
+                    tv_time.startAnimation(fadeout);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_time.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                }
+            }, 200);
+
+            new Timer().schedule(new TimerTask() {
+                public void run() {
+                    LLO_icons.startAnimation(panelup);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_open_txt.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            }, 800);
+
+            // save버튼 누름과 동시에 프로그레스바도 초기화해놓는다.
+            pb_iconTotal.setProgress(0);
+            pb_total.setProgress(0);
+
+            state = 2;
+        }
     }
 }
