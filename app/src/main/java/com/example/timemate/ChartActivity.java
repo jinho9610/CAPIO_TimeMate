@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.example.timemate.Database.AppDatabase;
 import com.example.timemate.Database.OneDay;
 import com.example.timemate.Database.OneDayDao;
+import com.example.timemate.Database.TotalData;
+import com.example.timemate.Database.TotalDataDao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Array;
@@ -41,11 +43,11 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
     private RecyclerView.LayoutManager layoutManager;
     private static ArrayList<ODData> arrayList;
     private static List<OneDay> rvODItems;
-    private static TextView tv_WDT, tv_EDT, tv_SDT, tv_week_work, tv_week_exercise, tv_week_study;
+    private static TextView tv_WDT, tv_EDT, tv_SDT, tv_week_work, tv_week_exercise, tv_week_study, tv_total_work, tv_total_exercise, tv_total_study;
     private Animation fab_open_day, fab_open_week, fab_open_month, fab_open_time, fab_close, panelup_cal, paneldown_cal;
     private Boolean isFabOpen = false, isCalVisible = false;
     private FloatingActionButton fab_main, fab_day, fab_week, fab_month, fab_time;
-    private LinearLayout LLO_chart_day, LLO_chart_week, LLO_calendar;
+    private LinearLayout LLO_chart_day, LLO_chart_week, LLO_calendar, LLO_chart_total;
     private CalendarView calendar;
     static Context context;
 
@@ -66,6 +68,9 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
         tv_week_work = findViewById(R.id.tv_week_work);
         tv_week_exercise = findViewById(R.id.tv_week_exercise);
         tv_week_study = findViewById(R.id.tv_week_study);
+        tv_total_work=findViewById(R.id.tv_total_work);
+        tv_total_exercise=findViewById(R.id.tv_total_exercise);
+        tv_total_study=findViewById(R.id.tv_total_study);
         // 애니메이션
         fab_main = findViewById(R.id.fab_main);
         fab_day = findViewById(R.id.fab_day);
@@ -76,6 +81,7 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
         LLO_chart_day = findViewById(R.id.LLO_chart_day);
         LLO_chart_week = findViewById(R.id.LLO_chart_week);
         LLO_calendar = findViewById(R.id.LLO_calendar);
+        LLO_chart_total=findViewById(R.id.LLO_chart_total);
 
         context = getApplicationContext();
 
@@ -88,6 +94,7 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
 
         new DayAsyncTask(db.oneDayDao()).execute();
         new WeekAsyncTask(db.oneDayDao()).execute();
+        new TotalAsyncTask(db.totalDataDao()).execute();
 
         adapter = new OneDayAdapater(arrayList, this);
         rv_days.setAdapter(adapter); // 리사이클러 뷰에 어댑터 연결
@@ -158,6 +165,7 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
                 LLO_chart_day.setVisibility(View.VISIBLE);
                 LLO_chart_week.setVisibility(View.INVISIBLE);
                 LLO_calendar.setVisibility(View.INVISIBLE);
+                LLO_chart_total.setVisibility(View.INVISIBLE);
                 if (isCalVisible) {
                     LLO_calendar.startAnimation(paneldown_cal);
                     isCalVisible = false;
@@ -167,6 +175,7 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
                 LLO_chart_day.setVisibility(View.INVISIBLE);
                 LLO_chart_week.setVisibility(View.VISIBLE);
                 LLO_calendar.setVisibility(View.INVISIBLE);
+                LLO_chart_total.setVisibility(View.INVISIBLE);
                 if (isCalVisible) {
                     LLO_calendar.startAnimation(paneldown_cal);
                     isCalVisible = false;
@@ -184,6 +193,16 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
                     anim();
                     break;
                 }
+            case R.id.fab_time :
+                LLO_chart_day.setVisibility(View.INVISIBLE);
+                LLO_chart_week.setVisibility(View.INVISIBLE);
+                LLO_chart_total.setVisibility(View.VISIBLE);
+                LLO_calendar.setVisibility(View.INVISIBLE);
+                if (isCalVisible) {
+                    LLO_calendar.startAnimation(paneldown_cal);
+                    isCalVisible = false;
+                }
+                break;
         }
     }
 
@@ -237,16 +256,21 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
             if (mOneDayDao.getAllItemsByDayInfo(year, month, day).size() != 0) { // 오늘 저장된 것이 하나라도 있다면
                 rvODItems = mOneDayDao.getAllItemsByDayInfo(year, month, day); // 오늘 정보만 가져온다
                 Log.e("오늘저장된게있는경우", Integer.toString(rvODItems.size()));
-            } else { // 오늘 저장된 놈이 하나도 없는 상태라면 그냥 전날것들 보여주자
-                Calendar cal2 = new GregorianCalendar();
-                cal2.add(Calendar.DAY_OF_MONTH, -1);
-                int y = cal2.get(Calendar.YEAR); // 연
-                int m = cal2.get(Calendar.MONTH) + 1; // 월
-                int d = cal2.get(Calendar.DATE); // 일
-                rvODItems = mOneDayDao.getAllItemsByDayInfo(y, m, d);
-                Log.e("오늘저장된게없는경우 Y", Integer.toString(y));
-                Log.e("오늘저장된게없는경우 M", Integer.toString(m));
-                Log.e("오늘저장된게없는경우 D", Integer.toString(d));
+            } else { // 오늘 저장된 놈이 하나도 없는 상태라면, 저장된 데이터가 있는 가장 최근의 날 정보들 보여주자
+                for(int i=1;;i++) {
+                    Calendar cal2=new GregorianCalendar();
+                    cal2.add(Calendar.DAY_OF_MONTH,-i);
+                    int y = cal2.get(Calendar.YEAR); // 연
+                    int m = cal2.get(Calendar.MONTH) + 1; // 월
+                    int d = cal2.get(Calendar.DATE); // 일
+                    if(mOneDayDao.getAllItemsByDayInfo(y, m, d).size()!=0) {
+                        rvODItems = mOneDayDao.getAllItemsByDayInfo(y, m, d);
+                        Log.e("오늘저장된게없는경우 Y", Integer.toString(y));
+                        Log.e("오늘저장된게없는경우 M", Integer.toString(m));
+                        Log.e("오늘저장된게없는경우 D", Integer.toString(d));
+                        break;
+                    } else continue;
+                }
             }
 
             for (OneDay oneDay : rvODItems) {
@@ -387,6 +411,36 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
             tv_week_work.setText(aa);
             tv_week_exercise.setText(bb);
             tv_week_study.setText(cc);
+        }
+    }
+
+    public static class TotalAsyncTask extends AsyncTask<TotalData, TotalData, Void> {
+        private TotalDataDao mTotalDataDao;
+
+        public TotalAsyncTask(TotalDataDao totalDataDao) {
+            this.mTotalDataDao = totalDataDao;
+        }
+
+        @Override
+        protected Void doInBackground(TotalData... totalDatas) {
+            TotalData temp=mTotalDataDao.getAllItems().get(0);
+            publishProgress(temp);
+
+            return null;
+        }
+
+        protected void onProgressUpdate(TotalData... totalDatas) {
+            long a = totalDatas[0].getWork_Total();
+            long b = totalDatas[0].getExercise_Total();
+            long c = totalDatas[0].getStudy_Total();
+
+            String aa = String.format("%02dHR %02dMIN", a / 1000 / 60 / 60, a / 1000 / 60);
+            String bb = String.format("%02dHR %02dMIN", b / 1000 / 60 / 60, b / 1000 / 60);
+            String cc = String.format("%02dHR %02dMIN", c / 1000 / 60 / 60, c / 1000 / 60);
+
+            tv_total_work.setText(aa);
+            tv_total_exercise.setText(bb);
+            tv_total_study.setText(cc);
         }
     }
 

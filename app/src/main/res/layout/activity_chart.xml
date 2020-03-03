@@ -111,101 +111,112 @@
         </LinearLayout>
         <!--주간 통계-->
         <LinearLayout
-            android:visibility="invisible"
             android:id="@+id/LLO_chart_week"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical"
-            android:gravity="center">
-            
+            android:visibility="invisible">
+
             <LinearLayout
-                android:layout_marginBottom="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="137dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/corner_background">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2.1"
                     android:gravity="center">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/glasses2"/>
+                        android:src="@drawable/glasses2" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="3"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center|left">
+                    android:layout_weight="3"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="업무"
                         android:layout_marginBottom="15dp"
+                        android:text="업무"
                         android:textColor="#ffffff"
-                        android:textSize="32sp"/>
+                        android:textSize="32sp" />
+
                     <TextView
                         android:id="@+id/tv_week_work"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:text="00HOUR 00MIN"
                         android:textColor="#ffffff"
-                        android:text="00HOUR 00MIN"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginBottom="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="137dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:background="@drawable/corner_background">
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/corner_background"
+                android:gravity="center">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2.1"
                     android:gravity="center">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/dumbbell2"/>
+                        android:src="@drawable/dumbbell2" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="3"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center|left">
+                    android:layout_weight="3"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="운동"
                         android:layout_marginBottom="15dp"
+                        android:text="운동"
                         android:textColor="#ffffff"
-                        android:textSize="32sp"/>
+                        android:textSize="32sp" />
+
                     <TextView
                         android:id="@+id/tv_week_exercise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:text="00HOUR 00MIN"
                         android:textColor="#ffffff"
-                        android:text="00HOUR 00MIN"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginBottom="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="137dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/corner_background">
 
                 <LinearLayout
@@ -213,31 +224,184 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2.1"
                     android:gravity="center">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/book2"/>
+                        android:src="@drawable/book2" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="3"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center|left">
+                    android:layout_weight="3"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="공부"
                         android:layout_marginBottom="15dp"
+                        android:text="공부"
                         android:textColor="#ffffff"
-                        android:textSize="32sp"/>
+                        android:textSize="32sp" />
+
                     <TextView
                         android:id="@+id/tv_week_study"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:text="00HOUR 00MIN"
                         android:textColor="#ffffff"
-                        android:text="00HOUR 00MIN"/>
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <!--총 통계-->
+        <LinearLayout
+            android:id="@+id/LLO_chart_total"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="137dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/corner_background">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/glasses2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:text="업무"
+                        android:textColor="#ffffff"
+                        android:textSize="32sp" />
+
+                    <TextView
+                        android:id="@+id/tv_total_work"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00HOUR 00MIN"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="137dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/corner_background"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dumbbell2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:text="운동"
+                        android:textColor="#ffffff"
+                        android:textSize="32sp" />
+
+                    <TextView
+                        android:id="@+id/tv_total_exercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00HOUR 00MIN"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="137dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/corner_background">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/book2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:text="공부"
+                        android:textColor="#ffffff"
+                        android:textSize="32sp" />
+
+                    <TextView
+                        android:id="@+id/tv_total_study"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00HOUR 00MIN"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -248,18 +412,18 @@
             android:id="@+id/LLO_calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:background="#D9FFFFFF"
             android:visibility="invisible"
-            tools:visibility="visible"
-            android:layout_gravity="bottom">
-            <CalendarView
-                android:minDate="01/01/2020"
-                android:maxDate="12/31/2060"
-                android:id="@+id/calendar"
-                android:layout_marginBottom="40dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            tools:visibility="visible">
 
+            <CalendarView
+                android:id="@+id/calendar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="40dp"
+                android:maxDate="12/31/2060"
+                android:minDate="01/01/2020" />
         </LinearLayout>
 
 

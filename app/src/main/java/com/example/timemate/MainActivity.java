@@ -520,6 +520,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override // 백그라운드 작업
         protected Void doInBackground(TotalData... totalDatas) {
+            mTotalDataDao.clear(); // 이녀석은 데이터베이스를 매번 쌓을 필요가 없으니 기존의 녀석은 삭제
             mTotalDataDao.insert(totalDatas[0]);
             return null;
         }
