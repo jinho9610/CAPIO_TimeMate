@@ -13,13 +13,14 @@
 
         <!--일일 통계-->
         <LinearLayout
+            tools:visibility="invisible"
             android:id="@+id/LLO_chart_day"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:visibility="invisible">
+            android:orientation="vertical">
 
             <LinearLayout
+                android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
@@ -27,7 +28,8 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="160dp"
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
                     android:orientation="horizontal">
@@ -50,7 +52,8 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="160dp"
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
                     android:orientation="horizontal">
@@ -73,7 +76,8 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="160dp"
                     android:layout_height="40dp"
                     android:orientation="horizontal">
 
@@ -94,6 +98,14 @@
 
                 </LinearLayout>
 
+                <ProgressBar
+                    android:id="@+id/pb_day"
+                    android:max="60"
+                    android:layout_marginTop="25dp"
+                    android:layout_width="246dp"
+                    android:layout_height="22dp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:progressDrawable="@drawable/custom_pb"/>
             </LinearLayout>
 
             <LinearLayout
@@ -109,14 +121,32 @@
             </LinearLayout>
 
         </LinearLayout>
-        <!--주간 통계-->
+        <!--월별 통계-->
         <LinearLayout
-            android:id="@+id/LLO_chart_week"
+            android:id="@+id/LLO_chart_month"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/tv_month"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="00HOUR 00MIN"
+                android:textSize="20sp"
+                android:textColor="#ffffff"/>
+
+            <ProgressBar
+                android:max="60"
+                android:id="@+id/pb_month"
+                android:layout_width="246dp"
+                android:layout_height="22dp"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progressDrawable="@drawable/custom_pb"
+                android:layout_marginBottom="17dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -216,7 +246,7 @@
                 android:layout_height="137dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="80dp"
                 android:background="@drawable/corner_background">
 
                 <LinearLayout
@@ -266,6 +296,18 @@
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/tv_totalInfo"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="00HOUR 00MIN"
+                android:textSize="20sp"
+                android:layout_marginBottom="39dp"
+                android:textColor="#ffffff"/>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -365,7 +407,7 @@
                 android:layout_height="137dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="80dp"
                 android:background="@drawable/corner_background">
 
                 <LinearLayout
@@ -414,8 +456,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="#D9FFFFFF"
-            android:visibility="invisible"
-            tools:visibility="visible">
+            android:visibility="invisible">
 
             <CalendarView
                 android:id="@+id/calendar"
@@ -426,18 +467,18 @@
                 android:minDate="01/01/2020" />
         </LinearLayout>
 
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="315dp"
-            android:backgroundTint="#CC93aec6"
+            android:layout_marginBottom="240dp"
+            android:backgroundTint="#93aec6"
             android:src="@drawable/clk"
             android:visibility="invisible"
             app:borderWidth="0dp"
+            app:fabSize="normal"
             tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -446,24 +487,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="240dp"
-            android:backgroundTint="#CC93aec6"
+            android:layout_marginBottom="165dp"
+            android:backgroundTint="#93aec6"
             android:src="@drawable/month"
             android:visibility="invisible"
             app:borderWidth="0dp"
-            tools:visibility="visible" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_week"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="165dp"
-            android:backgroundTint="#CC93aec6"
-            android:src="@drawable/week"
-            android:visibility="invisible"
-            app:borderWidth="0dp"
+            app:fabSize="normal"
             tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -473,10 +502,11 @@
             android:layout_gravity="bottom|end"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="90dp"
-            android:backgroundTint="#CC93aec6"
+            android:backgroundTint="#93aec6"
             android:src="@drawable/day"
             android:visibility="invisible"
             app:borderWidth="0dp"
+            app:fabSize="normal"
             tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -485,8 +515,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="15dp"
-            android:backgroundTint="#CC93aec6"
+            android:backgroundTint="#93aec6"
             android:src="@drawable/fltbtn"
+            app:fabSize="normal"
             app:borderWidth="0dp" />
 
     </FrameLayout>

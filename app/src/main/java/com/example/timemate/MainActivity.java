@@ -25,12 +25,9 @@ import com.example.timemate.Database.OneDayDao;
 import com.example.timemate.Database.TotalData;
 import com.example.timemate.Database.TotalDataDao;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
